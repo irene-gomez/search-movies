@@ -1,26 +1,60 @@
 import React from 'react';
-import logo from './logo.svg';
+import MovieItem from './components/MovieItem';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            txt: 'nombre serie',
+            search: []
+        };
+        this.updateSearch = this.updateSearch.bind(this);
+        this.getData = this.getData.bind(this);
+    }
+    updateSearch(e) {
+        this.setState({ txt: e.target.value });
+    }
+    getData() {
+        const { txt } = this.state;
+        const url = `http://www.omdbapi.com/?s=${txt}&apikey=a24c6d7a`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ search: data.Search });
+                // console.log('search',this.state.search);
+            })
+            .catch(error => console.log(`Te has equivocado por aquí ${error}`));
+    }
+    render() {
+        const { search } = this.state;
+
+        return (
+            <div className="App">
+                <label htmlFor="movie" className="movie-label">
+                    Busca una película
+                </label>
+                <input
+                    type="text"
+                    name="movie"
+                    id="movie"
+                    onChange={this.updateSearch}
+                />
+                <button onClick={this.getData}>Buscar</button>
+
+                <p className="serie">Has buscado: {this.state.txt}</p>
+
+                <ul className="movie-list">
+                    {search.map(movie => {
+                        return (
+                            <MovieItem data={movie}/>
+                        );
+                    })}
+                </ul>
+            </div>
+        );
+    }
 }
 
 export default App;
