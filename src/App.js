@@ -17,7 +17,7 @@ class App extends React.Component {
     }
     getData() {
         const { txt } = this.state;
-        const url = `http://www.omdbapi.com/?s=${txt}&apikey=a24c6d7a`;
+        const url = `https://www.omdbapi.com/?s=${txt}&apikey=a24c6d7a`;
 
         fetch(url)
             .then(response => response.json())
