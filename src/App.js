@@ -5,8 +5,8 @@ import './App.css';
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            txt: 'nombre serie',
+        // this.state = {
+            txt: '',
             search: []
         };
         this.updateSearch = this.updateSearch.bind(this);
@@ -16,8 +16,21 @@ class App extends React.Component {
         this.setState({ txt: e.target.value });
     }
     getData() {
-        const { txt } = this.state;
-        const url = `https://www.omdbapi.com/?s=${txt}&apikey=a24c6d7a`;
+        // const { txt } = this.state;
+        let newText = '';
+        
+        if(txt === '') {
+            console.log('El campo de búsqueda está vacío');
+            this.setState({ txt: 'El campo de búsqueda está vacío' });
+            
+        } else if(txt.includes(' ')){
+            newText = txt.replace(' ', '+');
+            
+        } else {
+            newText = txt;
+        }
+
+        const url = `https://www.omdbapi.com/?s=${newText}&apikey=a24c6d7a`;
 
         fetch(url)
             .then(response => response.json())
@@ -28,7 +41,7 @@ class App extends React.Component {
             .catch(error => console.log(`Te has equivocado por aquí ${error}`));
     }
     render() {
-        const { search } = this.state;
+        // const { search } = this.state;
 
         return (
             <div className="App">
@@ -43,7 +56,7 @@ class App extends React.Component {
                 />
                 <button onClick={this.getData}>Buscar</button>
 
-                <p className="serie">Has buscado: {this.state.txt}</p>
+                {/* <p className="serie">Has buscado: {this.state.txt}</p> */}
 
                 <ul className="movie-list">
                     {search.map(movie => {
