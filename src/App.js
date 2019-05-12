@@ -5,7 +5,7 @@ import './App.css';
 class App extends React.Component {
     constructor(props) {
         super(props);
-        // this.state = {
+        this.state = {
             txt: '',
             search: []
         };
@@ -16,7 +16,7 @@ class App extends React.Component {
         this.setState({ txt: e.target.value });
     }
     getData() {
-        // const { txt } = this.state;
+        const { txt } = this.state;
         let newText = '';
         
         if(txt === '') {
@@ -41,7 +41,7 @@ class App extends React.Component {
             .catch(error => console.log(`Te has equivocado por aquí ${error}`));
     }
     render() {
-        // const { search } = this.state;
+        const { search } = this.state;
 
         return (
             <div className="App">
@@ -56,7 +56,7 @@ class App extends React.Component {
                 />
                 <button onClick={this.getData}>Buscar</button>
 
-                {/* <p className="serie">Has buscado: {this.state.txt}</p> */}
+                <p className="serie">Has buscado: {this.state.txt}</p>
 
                 <ul className="movie-list">
                     {search.map(movie => {
